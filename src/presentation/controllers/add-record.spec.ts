@@ -7,8 +7,8 @@ interface SutType {
 
 const makeAddRecord = (): AddRecord => {
   class AddRecordStub implements AddRecord {
-    async add (data: any): Promise<void> {
-      return null
+    async add (data: any): Promise<any> {
+      return '22.9'
     }
   }
   return new AddRecordStub()
@@ -57,9 +57,10 @@ describe('AddRecord controller', () => {
     expect(response.body).toEqual(new Error('Internal server error'))
   })
 
-  test('Should return 200 if AddRecord succeeds', async () => {
+  test('Should return 200 with returned data if AddRecord succeeds', async () => {
     const { sut } = makeSut()
     const response = await sut.handle(makeFakeRequest())
     expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({ data: '22.9' })
   })
 })
