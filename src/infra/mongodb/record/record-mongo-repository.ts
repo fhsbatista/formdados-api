@@ -2,6 +2,6 @@ import { AddRecordRepository } from '../../../data/protocols/db/record/add-recor
 
 export class RecordMongoRepository implements AddRecordRepository {
   async add (data: any): Promise<void> {
-    return null
+    return data
   }
 }
