@@ -39,7 +39,10 @@ describe('AddRecord controller', () => {
 
   test('Should return 400 if no data is provided', async () => {
     const { sut } = makeSut()
-    const response = await sut.handle(makeFakeRequest())
+    const invalidRequest = {
+      body: {}
+    }
+    const response = await sut.handle(invalidRequest)
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual(new Error('Missing param: data'))
   })
@@ -52,5 +55,11 @@ describe('AddRecord controller', () => {
     const response = await sut.handle(makeFakeRequest())
     expect(response.statusCode).toBe(500)
     expect(response.body).toEqual(new Error('Server error'))
+  })
+
+  test('Should return 200 if AddRecord succeeds', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle(makeFakeRequest())
+    expect(response.statusCode).toBe(200)
   })
 })
