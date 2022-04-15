@@ -1,4 +1,4 @@
-import { badRequest, ok } from '../helpers/http/http-helper'
+import { badRequest, ok, serverError } from '../helpers/http/http-helper'
 import { AddRecord } from './add-record-protocols'
 
 export class AddRecordController {
@@ -13,10 +13,7 @@ export class AddRecordController {
       await this.addRecord.add(httpRequest.body.data)
       return ok(null)
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: new Error('Server error')
-      }
+      return serverError(error)
     }
   }
 }

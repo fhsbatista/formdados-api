@@ -54,7 +54,7 @@ describe('AddRecord controller', () => {
     })
     const response = await sut.handle(makeFakeRequest())
     expect(response.statusCode).toBe(500)
-    expect(response.body).toEqual(new Error('Server error'))
+    expect(response.body).toEqual(new Error('Internal server error'))
   })
 
   test('Should return 200 if AddRecord succeeds', async () => {
