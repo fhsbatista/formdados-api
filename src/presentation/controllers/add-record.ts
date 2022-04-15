@@ -4,10 +4,17 @@ export class AddRecordController {
   constructor (private readonly addRecord: AddRecord) { }
 
   async handle (httpRequest: any): Promise<any> {
-    await this.addRecord.add(httpRequest.body.data)
-    return {
-      statusCode: 400,
-      body: new Error('Missing param: data')
+    try {
+      await this.addRecord.add(httpRequest.body.data)
+      return {
+        statusCode: 400,
+        body: new Error('Missing param: data')
+      }
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: new Error('Server error')
+      }
     }
   }
 }
