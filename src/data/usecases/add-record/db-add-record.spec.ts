@@ -4,7 +4,7 @@ import { DBAddRecord } from './db-add-record'
 const makeAddRecordRepository = (): AddRecordRepository => {
   class AddRecordRepositoryStub implements AddRecordRepository {
     async add (data: any): Promise<void> {
-      return new Promise(resolve => resolve(null))
+      return new Promise(resolve => resolve(data))
     }
   }
   return new AddRecordRepositoryStub()
@@ -39,9 +39,9 @@ describe('DBAddRecord usecase ', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return null if AddRecordRepository succeeds', async () => {
+  test('Should return repository result if AddRecordRepository succeeds', async () => {
     const { sut } = makeSut()
     const result = await sut.add(30)
-    expect(result).toBe(null)
+    expect(result).toBe(30)
   })
 })
