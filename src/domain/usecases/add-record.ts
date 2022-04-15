@@ -1,3 +1,3 @@
 export interface AddRecord {
-  add (data: any): Promise<void>
+  add (data: any): Promise<any>
 }

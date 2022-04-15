@@ -10,8 +10,8 @@ export class AddRecordController {
       if (!data) {
         return badRequest(new Error('Missing param: data'))
       }
-      await this.addRecord.add(httpRequest.body.data)
-      return ok(null)
+      const result = await this.addRecord.add(httpRequest.body.data)
+      return ok({ data: result })
     } catch (error) {
       return serverError(error)
     }
