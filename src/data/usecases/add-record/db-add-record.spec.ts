@@ -31,4 +31,11 @@ describe('DBAddRecord usecase ', () => {
     await sut.add(22.9)
     expect(addSpy).toHaveBeenCalledWith(22.9)
   })
+
+  test('Should throw if AddRecordRepository throws', async () => {
+    const { sut, addRecordRepositoryStub } = makeSut()
+    jest.spyOn(addRecordRepositoryStub, 'add').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.add(30)
+    await expect(promise).rejects.toThrow()
+  })
 })
