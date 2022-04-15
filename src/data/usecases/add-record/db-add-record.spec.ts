@@ -38,4 +38,10 @@ describe('DBAddRecord usecase ', () => {
     const promise = sut.add(30)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return null if AddRecordRepository succeeds', async () => {
+    const { sut } = makeSut()
+    const result = await sut.add(30)
+    expect(result).toBe(null)
+  })
 })
