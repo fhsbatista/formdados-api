@@ -1,3 +1,4 @@
+import { badRequest } from '../helpers/http/http-helper'
 import { AddRecord } from './add-record-protocols'
 
 export class AddRecordController {
@@ -7,10 +8,7 @@ export class AddRecordController {
     try {
       const { data } = httpRequest.body
       if (!data) {
-        return {
-          statusCode: 400,
-          body: new Error('Missing param: data')
-        }
+        return badRequest(new Error('Missing param: data'))
       }
       await this.addRecord.add(httpRequest.body.data)
       return {
