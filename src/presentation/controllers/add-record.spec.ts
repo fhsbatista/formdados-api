@@ -48,4 +48,14 @@ describe('AddRecord controller', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual(new Error('Missing param: data'))
   })
+
+  test('Should return 500 if AddRecord throws', async () => {
+    const { sut, addRecordStub } = makeSut()
+    jest.spyOn(addRecordStub, 'add').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
+    const response = await sut.handle(makeFakeRequest())
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toEqual(new Error('Server error'))
+  })
 })
