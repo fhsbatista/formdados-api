@@ -1,10 +1,10 @@
-import { badRequest, serverError } from '../../helpers/http/http-helper'
-import { AddBfRecord } from './add-bf-record-protocols'
+import { badRequest, ok, serverError } from '../../helpers/http/http-helper'
+import { AddBfRecord, HttpResponse } from './add-bf-record-protocols'
 
 export class AddBfRecordController {
   constructor (private readonly addBfRecord: AddBfRecord) { }
 
-  async handle (httpRequest: any): Promise<any> {
+  async handle (httpRequest: any): Promise<HttpResponse> {
     try {
       const { date, percent } = httpRequest.body
       if (!date) {
@@ -13,7 +13,8 @@ export class AddBfRecordController {
       if (!percent) {
         return badRequest(new Error('Missing param: bfPercent'))
       }
-      await this.addBfRecord.add({ date, percent })
+      const result = await this.addBfRecord.add({ date, percent })
+      return ok(result)
     } catch (error) {
       return serverError(error)
     }
