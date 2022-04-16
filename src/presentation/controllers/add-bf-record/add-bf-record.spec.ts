@@ -70,4 +70,14 @@ describe('AddBfRecord controller', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual(new Error('Missing param: bfPercent'))
   })
+
+  test('Should return 500 if AddBfRecord throws', async () => {
+    const { sut, addBfRecordStub } = makeSut()
+    jest.spyOn(addBfRecordStub, 'add').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
+    const response = await sut.handle(makeFakeRequest())
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toEqual(new Error('Internal server error'))
+  })
 })
