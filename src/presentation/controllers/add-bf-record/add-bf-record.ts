@@ -5,6 +5,12 @@ export class AddBfRecordController {
   constructor (private readonly addBfRecord: AddBfRecord) { }
 
   async handle (httpRequest: any): Promise<any> {
-    return badRequest(new Error('Missing param: date'))
+    const { date, bfPercent } = httpRequest.body
+    if (!date) {
+      return badRequest(new Error('Missing param: date'))
+    }
+    if (!bfPercent) {
+      return badRequest(new Error('Missing param: bfPercent'))
+    }
   }
 }
