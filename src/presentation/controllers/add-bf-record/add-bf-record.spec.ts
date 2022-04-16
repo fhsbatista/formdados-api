@@ -2,7 +2,8 @@ import {
   AddBfRecordController,
   AddBfRecord,
   AddBfRecordDTO,
-  BodyFatVO
+  BodyFatVO,
+  HttpRequest
 } from './add-bf-record-protocols'
 
 interface SutType {
@@ -28,7 +29,24 @@ const makeSut = (): SutType => {
   }
 }
 
+const makeFakeRequest = (): HttpRequest => ({
+  body: {
+    date: '10/12/2021',
+    percent: 22.9
+  }
+})
+
 describe('AddBfRecord controller', () => {
+  test('Should call AddRecord with correct values', async () => {
+    const { sut, addBfRecordStub } = makeSut()
+    const addSpy = jest.spyOn(addBfRecordStub, 'add')
+    await sut.handle(makeFakeRequest())
+    expect(addSpy).toHaveBeenCalledWith({
+      date: '10/12/2021',
+      percent: 22.9
+    })
+  })
+
   test('Should return 400 if no date is provided', async () => {
     const { sut } = makeSut()
     const invalidRequest = {
