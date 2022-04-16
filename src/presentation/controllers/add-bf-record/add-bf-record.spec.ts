@@ -40,4 +40,16 @@ describe('AddBfRecord controller', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual(new Error('Missing param: date'))
   })
+
+  test('Should return 400 if no bf percent is provided', async () => {
+    const { sut } = makeSut()
+    const invalidRequest = {
+      body: {
+        date: '12/12/2021'
+      }
+    }
+    const response = await sut.handle(invalidRequest)
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toEqual(new Error('Missing param: bfPercent'))
+  })
 })
