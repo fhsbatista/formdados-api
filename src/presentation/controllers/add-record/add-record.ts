@@ -1,4 +1,4 @@
-import { badRequest, ok, serverError } from '../helpers/http/http-helper'
+import { badRequest, ok, serverError } from '../../helpers/http/http-helper'
 import { AddRecord } from './add-record-protocols'
 
 export class AddRecordController {
