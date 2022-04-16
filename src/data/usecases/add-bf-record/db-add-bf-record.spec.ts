@@ -38,4 +38,11 @@ describe('DBAddBfRecord usecase ', () => {
     await sut.add(dto)
     expect(addSpy).toHaveBeenCalledWith(dto)
   })
+
+  test('Should throw if AddBfRecordRepository throws', async () => {
+    const { sut, addBfRecordRepositoryStub } = makeSut()
+    jest.spyOn(addBfRecordRepositoryStub, 'add').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.add(makeAddBfRecordDTO())
+    await expect(promise).rejects.toThrow()
+  })
 })
