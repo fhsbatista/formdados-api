@@ -28,4 +28,16 @@ describe('Record Routes', () => {
         .expect(200)
     })
   })
+
+  describe('POST /add_bf_record] ', () => {
+    test('Should return 200 on add_record', async () => {
+      await request(app)
+        .post('/api/add_bf_record')
+        .send({
+          percent: 22.8,
+          date: '10/12/2009'
+        })
+        .expect(200)
+    })
+  })
 })
