@@ -11,7 +11,7 @@ export class AddBfRecordController {
         return badRequest(new Error('Missing param: date'))
       }
       if (!percent) {
-        return badRequest(new Error('Missing param: bfPercent'))
+        return badRequest(new Error('Missing param: percent'))
       }
       const result = await this.addBfRecord.add({ date, percent })
       return ok(result)

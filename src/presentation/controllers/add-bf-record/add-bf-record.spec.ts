@@ -68,7 +68,7 @@ describe('AddBfRecord controller', () => {
     }
     const response = await sut.handle(invalidRequest)
     expect(response.statusCode).toBe(400)
-    expect(response.body).toEqual(new Error('Missing param: bfPercent'))
+    expect(response.body).toEqual(new Error('Missing param: percent'))
   })
 
   test('Should return 500 if AddBfRecord throws', async () => {
