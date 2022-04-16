@@ -1,11 +1,12 @@
 import { AddBfRecordDTO } from '../../../domain/usecases/add-bf-record'
+import { BodyFatVO } from '../../../domain/value-objects/body-fat-vo'
 import { AddBfRecordRepository } from '../../protocols/db/record/add-bf-record-repository'
 import { DBAddBfRecord } from './db-add-bf-record'
 
 const makeAddBfRecordRepository = (): AddBfRecordRepository => {
   class AddBfRecordRepositoryStub implements AddBfRecordRepository {
-    async add (bf: AddBfRecordDTO): Promise<void> {
-      return new Promise(resolve => resolve(null))
+    async add (bf: AddBfRecordDTO): Promise<BodyFatVO> {
+      return new Promise(resolve => resolve(bf))
     }
   }
   return new AddBfRecordRepositoryStub()
@@ -44,5 +45,12 @@ describe('DBAddBfRecord usecase ', () => {
     jest.spyOn(addBfRecordRepositoryStub, 'add').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.add(makeAddBfRecordDTO())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should return repository result if AddBfRecordRepository succeeds', async () => {
+    const { sut } = makeSut()
+    const dto = makeAddBfRecordDTO()
+    const result = await sut.add(dto)
+    expect(result).toBe(dto)
   })
 })
