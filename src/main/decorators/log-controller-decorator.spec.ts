@@ -80,4 +80,12 @@ describe('LogController Decorator ', () => {
     await sut.handle(makeFakeRequest())
     expect(logSpy).toHaveBeenCalledWith('any stack')
   })
+
+  test('Should return 500 if LogErrorRepository throws', async () => {
+    const { sut, controllerStub, logErrorRepositoryStub } = makeSut()
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise(resolve => resolve(makeFakeServerError())))
+    jest.spyOn(logErrorRepositoryStub, 'logError').mockImplementationOnce(() => { throw new Error() })
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
 })
