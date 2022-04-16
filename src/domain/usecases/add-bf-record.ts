@@ -1,6 +1,6 @@
 import { BodyFatVO } from '../value-objects/body-fat-vo'
 
-export class AddBfRecordDTO {
+export interface AddBfRecordDTO {
   date: Date
   percent: number
 }
