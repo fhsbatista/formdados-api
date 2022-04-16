@@ -80,4 +80,11 @@ describe('AddBfRecord controller', () => {
     expect(response.statusCode).toBe(500)
     expect(response.body).toEqual(new Error('Internal server error'))
   })
+
+  test('Should return 200 with returned data if AddBfRecord succeeds', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle(makeFakeRequest())
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({ date: '10/12/2021', percent: 22.9 })
+  })
 })
