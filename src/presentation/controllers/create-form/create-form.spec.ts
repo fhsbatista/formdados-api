@@ -59,4 +59,16 @@ describe('CreateForm controller ', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual(new Error('Missing param: fields'))
   })
+
+  test('Should return 200 if CreateFormSucceeds', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = {
+      body: {
+        fields: ['date', 'quantity']
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({ message: 'Form created successfully' })
+  })
 })
