@@ -37,4 +37,12 @@ describe('DBCreateForm usecase ', () => {
     await sut.create(dto)
     expect(addSpy).toHaveBeenCalledWith(dto)
   })
+
+  test('Should throw if CreateFormRepository throws', async () => {
+    const { sut, createFormRepositoryStub } = makeSut()
+    jest.spyOn(createFormRepositoryStub, 'create').mockImplementationOnce(() => { throw new Error() })
+    const dto = makeCreateFormDTO()
+    const promise = sut.create(dto)
+    await expect(promise).rejects.toThrow()
+  })
 })
