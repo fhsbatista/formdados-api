@@ -1,3 +1,4 @@
+import { badRequest } from '../../helpers/http/http-helper'
 import { CreateForm } from './create-form-protocols'
 
 export class CreateFormController {
@@ -5,5 +6,6 @@ export class CreateFormController {
 
   async handle (httpRequest: any): Promise<any> {
     await this.createForm.create({ fields: httpRequest.body.fields })
+    return badRequest(new Error('Missing param: fields'))
   }
 }

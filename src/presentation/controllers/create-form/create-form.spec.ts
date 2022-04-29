@@ -35,4 +35,16 @@ describe('CreateForm controller ', () => {
     await sut.handle(fakeRequest)
     expect(createSpy).toHaveBeenCalledWith({ fields: ['date', 'quantity'] })
   })
+
+  test('Should return 400 if the field "fields" is not provided', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = {
+      body: {
+        anyField: 'any_value'
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toEqual(new Error('Missing param: fields'))
+  })
 })
