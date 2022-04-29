@@ -60,6 +60,19 @@ describe('CreateForm controller ', () => {
     expect(response.body).toEqual(new Error('Missing param: fields'))
   })
 
+  test('Should return 500 if CreateForm throws', async () => {
+    const { sut, createFormStub } = makeSut()
+    jest.spyOn(createFormStub, 'create').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const fakeRequest = {
+      body: {
+        fields: ['date', 'quantity']
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toEqual(new Error('Internal server error'))
+  })
+
   test('Should return 200 if CreateFormSucceeds', async () => {
     const { sut } = makeSut()
     const fakeRequest = {
