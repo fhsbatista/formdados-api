@@ -1,5 +1,5 @@
 export interface CreateFormDTO {
-  fields: [FieldDTO]
+  fields: FieldDTO[]
 }
 
 export interface FieldDTO {
