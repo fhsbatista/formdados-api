@@ -1,10 +1,11 @@
+import { FormEntity } from '../../../domain/entities/form-entity'
 import { CreateFormDTO } from '../../../domain/usecases/create-form'
 import { CreateFormRepository } from '../../protocols/db/form/create-form-repository'
 import { DBCreateForm } from './db-create-form'
 
 const makeCreateFormRepository = (): CreateFormRepository => {
   class CreateFormRepositoryStub implements CreateFormRepository {
-    async create (dto: CreateFormDTO): Promise<void> {
+    async create (dto: CreateFormDTO): Promise<FormEntity> {
       return new Promise(resolve => resolve(null))
     }
   }
