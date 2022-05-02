@@ -40,4 +40,18 @@ describe('Record Routes', () => {
         .expect(200)
     })
   })
+
+  describe('POST /create_form] ', () => {
+    test('Should return 200 on add_record', async () => {
+      await request(app)
+        .post('/api/create_form')
+        .send({
+          fields: [
+            { name: 'date' },
+            { name: 'kilograms' }
+          ]
+        })
+        .expect(200)
+    })
+  })
 })
