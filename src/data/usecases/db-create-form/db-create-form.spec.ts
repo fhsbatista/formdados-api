@@ -45,4 +45,11 @@ describe('DBCreateForm usecase ', () => {
     const promise = sut.create(dto)
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return null if CreateFormRepository succeeds', async () => {
+    const { sut } = makeSut()
+    const dto = makeCreateFormDTO()
+    const result = await sut.create(dto)
+    expect(result).toBe(null)
+  })
 })

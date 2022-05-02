@@ -6,5 +6,6 @@ export class DBCreateForm implements CreateForm {
 
   async create (dto: CreateFormDTO): Promise<any> {
     await this.repository.create(dto)
+    return null
   }
 }
