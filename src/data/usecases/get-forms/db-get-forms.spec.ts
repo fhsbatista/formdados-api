@@ -39,4 +39,15 @@ describe('DBGetForms usecase ', () => {
     const promise = sut.get()
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return forms list if on repository success', async () => {
+    const forms = [
+      { id: 'any_id', fields: [{ name: 'date' }, { name: 'quantity' }] },
+      { id: 'any_id2', fields: [{ name: 'name' }, { name: 'profession' }] }
+    ]
+    const { sut, getFormsRepositoryStub } = makeSut()
+    jest.spyOn(getFormsRepositoryStub, 'get').mockReturnValueOnce(new Promise(resolve => resolve(forms)))
+    const result = await sut.get()
+    expect(result).toBe(forms)
+  })
 })
