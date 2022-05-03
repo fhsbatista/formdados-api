@@ -5,6 +5,7 @@
 
 ## Backlog
   - Create form
+  - Get forms
   - Fill form
   - Signup
   - Associate a form with a specific user
@@ -12,4 +13,3 @@
   - Provide access of a form to other users (share form)
   - Login
   - Get csv on email
-
