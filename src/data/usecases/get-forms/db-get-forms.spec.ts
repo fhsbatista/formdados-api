@@ -32,4 +32,11 @@ describe('DBGetForms usecase ', () => {
     await sut.get()
     expect(addSpy).toHaveBeenCalled()
   })
+
+  test('Should throw if repository throws', async () => {
+    const { sut, getFormsRepositoryStub } = makeSut()
+    jest.spyOn(getFormsRepositoryStub, 'get').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.get()
+    await expect(promise).rejects.toThrow()
+  })
 })
