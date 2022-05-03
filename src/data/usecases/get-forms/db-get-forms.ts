@@ -6,7 +6,6 @@ export class DBGetForms implements GetForms {
   constructor (private readonly repository: GetFormsRepository) {}
 
   async get (): Promise<FormEntity[]> {
-    await this.repository.get()
-    return []
+    return this.repository.get()
   }
 }
