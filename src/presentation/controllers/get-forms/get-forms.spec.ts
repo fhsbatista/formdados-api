@@ -41,4 +41,12 @@ describe('GetForms  controller ', () => {
     await sut.handle()
     expect(createSpy).toHaveBeenCalledWith()
   })
+
+  test('Should return 500 if GetForms throws', async () => {
+    const { sut, getFormsStub } = makeSut()
+    jest.spyOn(getFormsStub, 'get').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const response = await sut.handle()
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toEqual(new Error('Internal server error'))
+  })
 })
