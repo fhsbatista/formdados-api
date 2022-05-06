@@ -17,6 +17,16 @@ const makeFormEntity = (): FormEntity => ({
   fields: [{ name: 'date' }, { name: 'quantity' }]
 })
 
+const makeFormEntityList = (): FormEntity[] => ([
+  {
+    id: '123asd',
+    fields: [{ name: 'date' }, { name: 'quantity' }]
+  }, {
+    id: '124asd',
+    fields: [{ name: 'name' }, { name: 'profession' }]
+  }
+])
+
 let formCollection: Collection
 
 describe('Form Mongo Repository ', () => {
@@ -38,5 +48,13 @@ describe('Form Mongo Repository ', () => {
     const form = await sut.create(makeCreateFormDTO())
     expect(form.id).toBeTruthy()
     expect(form.fields).toEqual(makeFormEntity().fields)
+  })
+
+  test('Should return a form list on get success', async () => {
+    const sut = makeSut()
+    const expectedForms = makeFormEntityList()
+    await formCollection.insertMany(expectedForms)
+    const forms = await sut.get()
+    expect(forms).toEqual(expectedForms)
   })
 })
