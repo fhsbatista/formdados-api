@@ -49,4 +49,11 @@ describe('GetForms  controller ', () => {
     expect(response.statusCode).toBe(500)
     expect(response.body).toEqual(new Error('Internal server error'))
   })
+
+  test('Should return 200 with forms if GetForms Succeeds', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle()
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual(makeFormEntityList())
+  })
 })
