@@ -6,8 +6,8 @@ export class GetFormsController {
 
   async handle (): Promise<any> {
     try {
-      await this.getForms.get()
-      return ok({ message: 'Form created successfully' })
+      const forms = await this.getForms.get()
+      return ok(forms)
     } catch (error) {
       return serverError(error)
     }
