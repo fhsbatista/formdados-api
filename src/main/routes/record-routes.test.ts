@@ -18,7 +18,7 @@ describe('Record Routes', () => {
     await MongoHelper.disconnect()
   })
 
-  describe('POST /add_record] ', () => {
+  describe('POST /add_record', () => {
     test('Should return 200 on add_record', async () => {
       await request(app)
         .post('/api/add_record')
@@ -29,7 +29,7 @@ describe('Record Routes', () => {
     })
   })
 
-  describe('POST /add_bf_record] ', () => {
+  describe('POST /add_bf_record', () => {
     test('Should return 200 on add_record', async () => {
       await request(app)
         .post('/api/add_bf_record')
@@ -41,7 +41,7 @@ describe('Record Routes', () => {
     })
   })
 
-  describe('POST /create_form] ', () => {
+  describe('POST /create_form', () => {
     test('Should return 200 on add_record', async () => {
       await request(app)
         .post('/api/create_form')
@@ -51,6 +51,15 @@ describe('Record Routes', () => {
             { name: 'kilograms' }
           ]
         })
+        .expect(200)
+    })
+  })
+
+  describe('GET /get_forms', () => {
+    test('Should return 200 on get_forms', async () => {
+      await request(app)
+        .get('/api/get_forms')
+        .send()
         .expect(200)
     })
   })
