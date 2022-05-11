@@ -29,11 +29,11 @@ describe('CreateForm controller ', () => {
     const createSpy = jest.spyOn(createFormStub, 'create')
     const fakeRequest = {
       body: {
-        fields: ['date', 'quantity']
+        fields: [{ name: 'date' }, { name: 'quantity' }]
       }
     }
     await sut.handle(fakeRequest)
-    expect(createSpy).toHaveBeenCalledWith({ fields: ['date', 'quantity'] })
+    expect(createSpy).toHaveBeenCalledWith({ fields: [{ name: 'date' }, { name: 'quantity' }] })
   })
 
   test('Should return 400 if the field "fields" is not provided', async () => {
@@ -60,12 +60,27 @@ describe('CreateForm controller ', () => {
     expect(response.body).toEqual(new Error('Missing param: fields'))
   })
 
+  test('Should return 400 if a field which does not contain a name', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = {
+      body: {
+        fields: [
+          'any_value',
+          { names: 'any_other_value' }
+        ]
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toEqual(new Error('Invalid fields has been provided'))
+  })
+
   test('Should return 500 if CreateForm throws', async () => {
     const { sut, createFormStub } = makeSut()
     jest.spyOn(createFormStub, 'create').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
     const fakeRequest = {
       body: {
-        fields: ['date', 'quantity']
+        fields: [{ name: 'date' }, { name: 'quantity' }]
       }
     }
     const response = await sut.handle(fakeRequest)
@@ -77,7 +92,7 @@ describe('CreateForm controller ', () => {
     const { sut } = makeSut()
     const fakeRequest = {
       body: {
-        fields: ['date', 'quantity']
+        fields: [{ name: 'date' }, { name: 'quantity' }]
       }
     }
     const response = await sut.handle(fakeRequest)
