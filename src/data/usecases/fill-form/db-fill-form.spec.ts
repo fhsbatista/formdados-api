@@ -1,10 +1,11 @@
+import { FilledFormEntity } from '../../../domain/entities/filled-form-entity'
 import { FillFormDTO } from '../../../domain/usecases/fill-form'
 import { FillFormRepository } from '../../protocols/db/form/fill-form-repository'
 import { DBFillForm } from './db-fill-form'
 
 const makeFillFormRepository = (): FillFormRepository => {
   class FillFormRepositoryStub implements FillFormRepository {
-    async fill (dto: FillFormDTO): Promise<void> {
+    async fill (dto: FillFormDTO): Promise<FilledFormEntity> {
       return new Promise(resolve => resolve(null))
     }
   }
