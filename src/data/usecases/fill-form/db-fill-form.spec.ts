@@ -52,4 +52,10 @@ describe('DBFillForm Usecase', () => {
     const promise = sut.fill(makeFilledFormDto())
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return null if CreateFormRepository succeeds', async () => {
+    const { sut } = makeSut()
+    const result = await sut.fill(makeFilledFormDto())
+    expect(result).toBe(null)
+  })
 })
