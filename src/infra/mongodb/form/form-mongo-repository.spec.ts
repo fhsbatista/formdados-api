@@ -1,6 +1,8 @@
 import { Collection } from 'mongodb'
+import { FilledFormEntity } from '../../../domain/entities/filled-form-entity'
 import { FormEntity } from '../../../domain/entities/form-entity'
 import { CreateFormDTO } from '../../../domain/usecases/create-form'
+import { FillFormDTO } from '../../../domain/usecases/fill-form'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { FormMongoRepository } from './form-mongo-repository'
 
@@ -10,6 +12,30 @@ const makeSut = (): FormMongoRepository => {
 
 const makeCreateFormDTO = (): CreateFormDTO => ({
   fields: [{ name: 'date' }, { name: 'quantity' }]
+})
+
+const makeFilledFormDto = (): FillFormDTO => ({
+  formId: 'any_id',
+  filledFields: [{
+    fieldName: 'any_name',
+    value: 'any_value'
+  },
+  {
+    fieldName: 'any_other_name',
+    value: 'any_other_value'
+  }]
+})
+
+const makeFilledFormEntity = (): FilledFormEntity => ({
+  formId: 'any_id',
+  filledFields: [{
+    fieldName: 'any_name',
+    value: 'any_value'
+  },
+  {
+    fieldName: 'any_other_name',
+    value: 'any_other_value'
+  }]
 })
 
 const makeFormEntity = (): FormEntity => ({
@@ -56,5 +82,13 @@ describe('Form Mongo Repository ', () => {
     await formCollection.insertMany(expectedForms)
     const forms = await sut.get()
     expect(forms).toEqual(expectedForms)
+  })
+
+  test('Should return a filled form on fill success', async () => {
+    const sut = makeSut()
+    const dto = makeFilledFormDto()
+    const filledForm = await sut.fill(dto)
+    expect(filledForm.formId).toBe(dto.formId)
+    expect(filledForm.filledFields).toEqual(makeFilledFormEntity().filledFields)
   })
 })
