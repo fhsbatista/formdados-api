@@ -6,9 +6,12 @@ export class FillFormController implements Controller {
   constructor (private readonly fillForm: FillForm) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { formId } = httpRequest.body
+    const { formId, filledFields } = httpRequest.body
     if (!formId) {
       return badRequest(new Error('Missing param: formId'))
+    }
+    if (!filledFields) {
+      return badRequest(new Error('Missing param: filledFields'))
     }
     await this.fillForm.fill(httpRequest.body)
     return null
