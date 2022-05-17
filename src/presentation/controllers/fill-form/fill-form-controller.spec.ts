@@ -74,4 +74,17 @@ describe('FillForm controller ', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual(new Error('Missing param: filledFields'))
   })
+
+  test('Should return 400 if the fields field is empty', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = {
+      body: {
+        formId: 'any_id',
+        filledFields: []
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toEqual(new Error('Invalid param: fields list is empty'))
+  })
 })
