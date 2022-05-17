@@ -13,6 +13,9 @@ export class FillFormController implements Controller {
     if (!filledFields) {
       return badRequest(new Error('Missing param: filledFields'))
     }
+    if (filledFields.length === 0) {
+      return badRequest(new Error('Invalid param: fields list is empty'))
+    }
     await this.fillForm.fill(httpRequest.body)
     return null
   }
