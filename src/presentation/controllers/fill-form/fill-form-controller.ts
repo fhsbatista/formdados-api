@@ -1,4 +1,4 @@
-import { badRequest, serverError } from '../../helpers/http/http-helper'
+import { badRequest, serverError, ok } from '../../helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '../../protocols'
 import { FilledFieldDTO, FillForm } from './fill-form-controller-protocols'
 
@@ -21,7 +21,7 @@ export class FillFormController implements Controller {
         return badRequest(new Error('Invalid param: an invalid filled field has been provided'))
       }
       await this.fillForm.fill(httpRequest.body)
-      return null
+      return ok({ message: 'Form has been filled successfully' })
     } catch (error) {
       return serverError(error)
     }
