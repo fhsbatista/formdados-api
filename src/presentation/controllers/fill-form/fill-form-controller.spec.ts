@@ -45,4 +45,23 @@ describe('FillForm controller ', () => {
     await sut.handle(fakeRequest)
     expect(createSpy).toHaveBeenCalledWith(fakeRequest.body)
   })
+
+  test('Should return 400 if the field "formId" is not provided', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = {
+      body: {
+        filledFields: [{
+          fieldName: 'any_name',
+          value: 'any_value'
+        },
+        {
+          fieldName: 'any_other_name',
+          value: 'any_other_value'
+        }]
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toEqual(new Error('Missing param: formId'))
+  })
 })
