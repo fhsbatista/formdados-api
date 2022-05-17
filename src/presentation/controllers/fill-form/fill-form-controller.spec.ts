@@ -114,4 +114,11 @@ describe('FillForm controller ', () => {
     expect(response.statusCode).toBe(500)
     expect(response.body).toEqual(new Error('Internal server error'))
   })
+
+  test('Should return 200 if FillForm succeeds', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle(makeFakeRequest())
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({ message: 'Form has been filled successfully' })
+  })
 })
