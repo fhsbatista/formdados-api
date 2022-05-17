@@ -106,4 +106,12 @@ describe('FillForm controller ', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual(new Error('Invalid param: an invalid filled field has been provided'))
   })
+
+  test('Should return 500 if FillForm throws', async () => {
+    const { sut, fillFormStub } = makeSut()
+    jest.spyOn(fillFormStub, 'fill').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const response = await sut.handle(makeFakeRequest())
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toEqual(new Error('Internal server error'))
+  })
 })
