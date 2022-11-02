@@ -4,6 +4,8 @@
   - ✅ Add Body fat data. (i.e. date and percent data). (endpoint /add_bf_record)
   - ✅ Create form
   - ✅ Get forms
+  - ⏳ Fill Form
+    - validate if input data on request contains all fields the form expects
 
 ## Backlog
   - Fill form
