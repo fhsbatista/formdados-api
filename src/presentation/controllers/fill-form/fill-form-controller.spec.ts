@@ -1,3 +1,4 @@
+import { FormEntity } from '../../../domain/entities/form-entity'
 import { FillForm, FillFormController, FillFormDTO, GetForms, HttpRequest } from './fill-form-controller-protocols'
 
 interface SutType {
@@ -5,6 +6,16 @@ interface SutType {
   fillFormStub: FillForm
   getFormsStub: GetForms
 }
+
+const makeFormEntityList = (): FormEntity[] => ([
+  {
+    id: 'any_id',
+    fields: [{ name: 'date' }, { name: 'quantity' }]
+  }, {
+    id: 'any_id_2',
+    fields: [{ name: 'name' }, { name: 'profession' }]
+  }
+])
 
 const makeFillForm = (): FillForm => {
   class FillFormStub implements FillForm {
@@ -18,7 +29,7 @@ const makeFillForm = (): FillForm => {
 const makeGetForms = (): GetForms => {
   class GetFormsStub implements GetForms {
     async get (): Promise<any> {
-      return null
+      return makeFormEntityList()
     }
   }
   return new GetFormsStub()
@@ -56,6 +67,22 @@ describe('FillForm controller ', () => {
     const fakeRequest = makeFakeRequest()
     await sut.handle(fakeRequest)
     expect(getSpy).toHaveBeenCalledWith()
+  })
+
+  test('Should return 400 if the formId does not exist in GetForms result', async () => {
+    const { sut } = makeSut()
+    const fakeRequest = {
+      body: {
+        formId: 'non_existing_id',
+        filledFields: [{
+          fieldName: 'any_name',
+          value: 'any_other_value'
+        }]
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toEqual(new Error('Invalid param: formId does not match an existing form'))
   })
 
   test('Should call FillForm with correct values', async () => {

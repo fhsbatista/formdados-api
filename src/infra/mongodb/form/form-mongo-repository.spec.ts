@@ -78,10 +78,12 @@ describe('Form Mongo Repository ', () => {
 
   test('Should return a form list on get success', async () => {
     const sut = makeSut()
-    const expectedForms = makeFormEntityList()
-    await formCollection.insertMany(expectedForms)
+    const formsToInsert = makeFormEntityList()
+    await formCollection.insertMany(formsToInsert)
     const forms = await sut.get()
-    expect(forms).toEqual(expectedForms)
+    expect(forms.length).toEqual(formsToInsert.length)
+    expect(forms[0].fields).toEqual(formsToInsert[0].fields)
+    expect(forms[1].fields).toEqual(formsToInsert[1].fields)
   })
 
   test('Should return a filled form on fill success', async () => {

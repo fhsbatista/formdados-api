@@ -20,7 +20,10 @@ export class FillFormController implements Controller {
       if (!this.isFilledFieldsValid(filledFields)) {
         return badRequest(new Error('Invalid param: an invalid filled field has been provided'))
       }
-      await this.getForms.get()
+      const forms = await this.getForms.get()
+      if (!forms.some(form => form.id === formId)) {
+        return badRequest(new Error('Invalid param: formId does not match an existing form'))
+      }
       await this.fillForm.fill(httpRequest.body)
       return ok({ message: 'Form has been filled successfully' })
     } catch (error) {
