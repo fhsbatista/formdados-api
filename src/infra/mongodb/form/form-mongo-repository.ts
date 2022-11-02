@@ -20,7 +20,6 @@ export class FormMongoRepository implements CreateFormRepository, GetFormsReposi
   async get (): Promise<FormEntity[]> {
     const formCollection = await MongoHelper.getCollection('forms')
     const forms = await formCollection.find<FormEntity>({}).toArray()
-    console.log(forms[0].fields)
     return forms
   }
 
