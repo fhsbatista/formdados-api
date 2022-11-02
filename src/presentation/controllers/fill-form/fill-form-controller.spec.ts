@@ -1,8 +1,9 @@
-import { FillForm, FillFormController, FillFormDTO, HttpRequest } from './fill-form-controller-protocols'
+import { FillForm, FillFormController, FillFormDTO, GetForms, HttpRequest } from './fill-form-controller-protocols'
 
 interface SutType {
   sut: FillFormController
   fillFormStub: FillForm
+  getFormsStub: GetForms
 }
 
 const makeFillForm = (): FillForm => {
@@ -14,12 +15,23 @@ const makeFillForm = (): FillForm => {
   return new FillFormStub()
 }
 
+const makeGetForms = (): GetForms => {
+  class GetFormsStub implements GetForms {
+    async get (): Promise<any> {
+      return null
+    }
+  }
+  return new GetFormsStub()
+}
+
 const makeSut = (): SutType => {
   const fillFormStub = makeFillForm()
-  const sut = new FillFormController(fillFormStub)
+  const getFormsStub = makeGetForms()
+  const sut = new FillFormController(fillFormStub, getFormsStub)
   return {
     sut,
-    fillFormStub
+    fillFormStub,
+    getFormsStub
   }
 }
 
@@ -38,6 +50,14 @@ const makeFakeRequest = (): HttpRequest => ({
 })
 
 describe('FillForm controller ', () => {
+  test('Should call GetForms', async () => {
+    const { sut, getFormsStub } = makeSut()
+    const getSpy = jest.spyOn(getFormsStub, 'get')
+    const fakeRequest = makeFakeRequest()
+    await sut.handle(fakeRequest)
+    expect(getSpy).toHaveBeenCalledWith()
+  })
+
   test('Should call FillForm with correct values', async () => {
     const { sut, fillFormStub } = makeSut()
     const createSpy = jest.spyOn(fillFormStub, 'fill')
