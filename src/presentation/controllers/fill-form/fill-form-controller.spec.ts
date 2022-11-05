@@ -135,7 +135,7 @@ describe('FillForm controller ', () => {
     expect(response.body).toEqual(new Error('Invalid param: fields list is empty'))
   })
 
-  test('Should return 400 if the fields list contains an invalid filled field', async () => {
+  test('Should return 400 if the fields list contains a not complete filled field', async () => {
     const { sut } = makeSut()
     const fakeRequest = {
       body: {
