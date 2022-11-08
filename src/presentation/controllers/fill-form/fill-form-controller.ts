@@ -24,6 +24,17 @@ export class FillFormController implements Controller {
       if (!forms.some(form => form.id === formId)) {
         return badRequest(new Error('Invalid param: formId does not match an existing form'))
       }
+      const form = forms.find(form => form.id === formId)
+      let containsNonExistentField
+      for (const filledField of filledFields) {
+        if (!form.fields.some(field => field.name === filledField.fieldName)) {
+          containsNonExistentField = true
+          break
+        }
+      }
+      if (containsNonExistentField) {
+        return badRequest(new Error('Invalid param: a non existent field name has been provided'))
+      }
       await this.fillForm.fill(httpRequest.body)
       return ok({ message: 'Form has been filled successfully' })
     } catch (error) {
