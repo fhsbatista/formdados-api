@@ -1,3 +1,4 @@
+import { FormEntity } from '../../../domain/entities/form-entity'
 import { badRequest, serverError, ok } from '../../helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '../../protocols'
 import { FilledFieldDTO, FillForm, GetForms } from './fill-form-controller-protocols'
@@ -25,14 +26,7 @@ export class FillFormController implements Controller {
         return badRequest(new Error('Invalid param: formId does not match an existing form'))
       }
       const form = forms.find(form => form.id === formId)
-      let containsNonExistentField
-      for (const filledField of filledFields) {
-        if (!form.fields.some(field => field.name === filledField.fieldName)) {
-          containsNonExistentField = true
-          break
-        }
-      }
-      if (containsNonExistentField) {
+      if (this.containsNonExistingField(form, filledFields)) {
         return badRequest(new Error('Invalid param: a non existent field name has been provided'))
       }
       await this.fillForm.fill(httpRequest.body)
@@ -50,5 +44,16 @@ export class FillFormController implements Controller {
       }
     })
     return isFilledFieldsValid
+  }
+
+  containsNonExistingField (form: FormEntity, fields: FilledFieldDTO[]): boolean {
+    let containsNonExistentField
+    for (const filledField of fields) {
+      if (!form.fields.some(field => field.name === filledField.fieldName)) {
+        containsNonExistentField = true
+        break
+      }
+    }
+    return containsNonExistentField
   }
 }
