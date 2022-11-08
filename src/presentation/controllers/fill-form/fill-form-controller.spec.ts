@@ -50,11 +50,11 @@ const makeFakeRequest = (): HttpRequest => ({
   body: {
     formId: 'any_id',
     filledFields: [{
-      fieldName: 'any_name',
+      fieldName: 'date',
       value: 'any_value'
     },
     {
-      fieldName: 'any_other_name',
+      fieldName: 'quantity',
       value: 'any_other_value'
     }]
   }
@@ -152,6 +152,30 @@ describe('FillForm controller ', () => {
     const response = await sut.handle(fakeRequest)
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual(new Error('Invalid param: an invalid filled field has been provided'))
+  })
+
+  test('Should return 400 if the fields list contains a non existent field name for the specified form', async () => {
+    const { sut, getFormsStub } = makeSut()
+    jest.spyOn(getFormsStub, 'get').mockReturnValueOnce(new Promise((resolve, reject) => resolve([{
+      id: 'any_id',
+      fields: [{ name: 'field_1' }, { name: 'value_1' }]
+    }])))
+    const fakeRequest = {
+      body: {
+        formId: 'any_id',
+        filledFields: [{
+          fieldName: 'field_1',
+          value: 'any_other_value'
+        },
+        {
+          fieldName: 'field_2',
+          value: 'any_other_value'
+        }]
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toEqual(new Error('Invalid param: a non existent field name has been provided'))
   })
 
   test('Should return 500 if FillForm throws', async () => {
