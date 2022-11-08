@@ -29,6 +29,9 @@ export class FillFormController implements Controller {
       if (this.containsNonExistingField(form, filledFields)) {
         return badRequest(new Error('Invalid param: a non existent field name has been provided'))
       }
+      if (this.isRequiredFieldMissing(form, filledFields)) {
+        return badRequest(new Error('Missing param: a required field is missing'))
+      }
       await this.fillForm.fill(httpRequest.body)
       return ok({ message: 'Form has been filled successfully' })
     } catch (error) {
@@ -55,5 +58,16 @@ export class FillFormController implements Controller {
       }
     }
     return containsNonExistentField
+  }
+
+  isRequiredFieldMissing (form: FormEntity, filledFields: FilledFieldDTO[]): boolean {
+    let isMissingRequiredField
+    for (const field of form.fields) {
+      if (!filledFields.find(filledFields => filledFields.fieldName === field.name)) {
+        isMissingRequiredField = true
+        break
+      }
+    }
+    return isMissingRequiredField
   }
 }
