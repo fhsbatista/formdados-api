@@ -154,6 +154,34 @@ describe('FillForm controller ', () => {
     expect(response.body).toEqual(new Error('Invalid param: an invalid filled field has been provided'))
   })
 
+  test('Should return 400 if a required field is missing', async () => {
+    const { sut, getFormsStub } = makeSut()
+    jest.spyOn(getFormsStub, 'get').mockReturnValueOnce(new Promise((resolve, reject) => resolve([{
+      id: 'any_id',
+      fields: [
+        { name: 'field_1' }, { name: 'value_1' },
+        { name: 'field_2' }, { name: 'value_2' },
+        { name: 'field_3' }, { name: 'value_3' }
+      ]
+    }])))
+    const fakeRequest = {
+      body: {
+        formId: 'any_id',
+        filledFields: [{
+          fieldName: 'field_2',
+          value: 'any_other_value'
+        },
+        {
+          fieldName: 'field_3',
+          value: 'any_other_value'
+        }]
+      }
+    }
+    const response = await sut.handle(fakeRequest)
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toEqual(new Error('Missing param: a required field is missing'))
+  })
+
   test('Should return 400 if the fields list contains a non existent field name for the specified form', async () => {
     const { sut, getFormsStub } = makeSut()
     jest.spyOn(getFormsStub, 'get').mockReturnValueOnce(new Promise((resolve, reject) => resolve([{
