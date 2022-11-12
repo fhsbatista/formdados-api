@@ -9,7 +9,7 @@ interface SutTypes {
 
 const makeGetFormFillmentsRepository = (): GetFormFillmentsRepository => {
   class GetFormFillmentsRepositoryStub implements GetFormFillmentsRepository {
-    async get (formId: String): Promise<FilledFieldEntity[]> {
+    async getFillments (formId: string): Promise<FilledFieldEntity[]> {
       return new Promise(resolve => resolve(null))
     }
   }
@@ -28,7 +28,7 @@ const makeSut = (): SutTypes => {
 describe('DBGetFormFillments usecase', () => {
   test('Should call GetFormFillments with correct value', async () => {
     const { sut, getFormFillmentsRepositoryStub } = makeSut()
-    const getSpy = jest.spyOn(getFormFillmentsRepositoryStub, 'get')
+    const getSpy = jest.spyOn(getFormFillmentsRepositoryStub, 'getFillments')
     const formId = 'any_form_id'
     await sut.get(formId)
     expect(getSpy).toHaveBeenCalledWith(formId)
@@ -36,7 +36,7 @@ describe('DBGetFormFillments usecase', () => {
 
   test('Should throws if repository throws', async () => {
     const { sut, getFormFillmentsRepositoryStub } = makeSut()
-    jest.spyOn(getFormFillmentsRepositoryStub, 'get').mockImplementationOnce(() => { throw new Error() })
+    jest.spyOn(getFormFillmentsRepositoryStub, 'getFillments').mockImplementationOnce(() => { throw new Error() })
     const promise = sut.get('any_form_id')
     await expect(promise).rejects.toThrow()
   })
@@ -47,7 +47,7 @@ describe('DBGetFormFillments usecase', () => {
       { name: 'any_name_2', value: 'any_value_2' }
     ]
     const { sut, getFormFillmentsRepositoryStub } = makeSut()
-    jest.spyOn(getFormFillmentsRepositoryStub, 'get').mockReturnValueOnce(new Promise(resolve => resolve(filledFields)))
+    jest.spyOn(getFormFillmentsRepositoryStub, 'getFillments').mockReturnValueOnce(new Promise(resolve => resolve(filledFields)))
     const result = await sut.get('any_form_id')
     expect(result).toBe(filledFields)
   })

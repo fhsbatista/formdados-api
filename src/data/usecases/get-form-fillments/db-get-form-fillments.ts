@@ -5,7 +5,7 @@ import { GetFormFillmentsRepository } from '../../protocols/db/form/get-form-fil
 export class DBGetFormFillments implements GetFormFillments {
   constructor (private readonly repository: GetFormFillmentsRepository) {}
 
-  async get (formId: String): Promise<FilledFieldEntity[]> {
-    return this.repository.get(formId)
+  async get (formId: string): Promise<FilledFieldEntity[]> {
+    return this.repository.getFillments(formId)
   }
 }
