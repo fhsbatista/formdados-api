@@ -6,7 +6,6 @@ export class DBGetFormFillments implements GetFormFillments {
   constructor (private readonly repository: GetFormFillmentsRepository) {}
 
   async get (formId: String): Promise<FilledFieldEntity[]> {
-    await this.repository.get(formId)
-    return null
+    return this.repository.get(formId)
   }
 }
