@@ -1,4 +1,4 @@
-import { FieldFieldEntity } from '../../../domain/entities/filled-form-entity'
+import { FilledFieldEntity } from '../../../domain/entities/filled-field-entity'
 import { GetFormFillmentsRepository } from '../../protocols/db/form/get-form-fillments-repository'
 import { DBGetFormFillments } from './db-get-form-fillments'
 
@@ -9,7 +9,7 @@ interface SutTypes {
 
 const makeGetFormFillmentsRepository = (): GetFormFillmentsRepository => {
   class GetFormFillmentsRepositoryStub implements GetFormFillmentsRepository {
-    async get (formId: String): Promise<FieldFieldEntity[]> {
+    async get (formId: String): Promise<FilledFieldEntity[]> {
       return new Promise(resolve => resolve(null))
     }
   }

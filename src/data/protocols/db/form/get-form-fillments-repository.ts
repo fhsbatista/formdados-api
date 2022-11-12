@@ -1,5 +1,5 @@
-import { FieldFieldEntity } from '../../../../domain/entities/filled-form-entity'
+import { FilledFieldEntity } from '../../../../domain/entities/filled-field-entity'
 
 export interface GetFormFillmentsRepository {
-  get (formId: String): Promise<FieldFieldEntity[]>
+  get (formId: String): Promise<FilledFieldEntity[]>
 }

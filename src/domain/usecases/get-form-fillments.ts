@@ -1,5 +1,5 @@
-import { FilledFieldDTO } from './fill-form'
+import { FilledFieldEntity } from '../entities/filled-field-entity'
 
 export interface GetFormFillments {
-  get (formId: String): Promise<FilledFieldDTO[]>
+  get (formId: String): Promise<FilledFieldEntity[]>
 }
