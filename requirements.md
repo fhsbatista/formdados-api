@@ -9,7 +9,6 @@
     - ✅ validate if input data on request contains some not expected field
 
 ## Backlog
-  - Fill form
   - Get fillments of a form
   - Signup
   - Associate a form with a specific user
