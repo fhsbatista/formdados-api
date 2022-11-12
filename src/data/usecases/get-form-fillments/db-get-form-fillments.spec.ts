@@ -33,4 +33,11 @@ describe('DBGetFormFillments usecase', () => {
     await sut.get(formId)
     expect(getSpy).toHaveBeenCalledWith(formId)
   })
+
+  test('Should throws if repository throws', async () => {
+    const { sut, getFormFillmentsRepositoryStub } = makeSut()
+    jest.spyOn(getFormFillmentsRepositoryStub, 'get').mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.get('any_form_id')
+    await expect(promise).rejects.toThrow()
+  })
 })
