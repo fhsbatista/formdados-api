@@ -40,4 +40,15 @@ describe('DBGetFormFillments usecase', () => {
     const promise = sut.get('any_form_id')
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should returns correct filled fields on repository success', async () => {
+    const filledFields = [
+      { name: 'any_name_1', value: 'any_value_1' },
+      { name: 'any_name_2', value: 'any_value_2' }
+    ]
+    const { sut, getFormFillmentsRepositoryStub } = makeSut()
+    jest.spyOn(getFormFillmentsRepositoryStub, 'get').mockReturnValueOnce(new Promise(resolve => resolve(filledFields)))
+    const result = await sut.get('any_form_id')
+    expect(result).toBe(filledFields)
+  })
 })
